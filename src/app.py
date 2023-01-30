@@ -96,7 +96,7 @@ def add_personajes_favoritos(usuario_id):
 
     request_body = request.json
     print(request_body)
-    print(request_body['personajes_id'])
+    # print(request_body['personajes_id'])
 
     new_favoritos_personajes = Favoritos(usuario_id = usuario_id, personajes_id = request_body['personajes_id'], vehiculos_id = None, planetas_id = None)
 
@@ -104,7 +104,7 @@ def add_personajes_favoritos(usuario_id):
     print(favoritos)
 
     if favoritos is None:
-        new_favoritos_personajes = Favoritos(usuario_id = usuario_id, personajes_id = request_body['personajes_id'], vehiculos_id = None, planets_id = None)
+        new_favoritos_personajes = Favoritos(usuario_id = usuario_id, personajes_id = request_body['personajes_id'], vehiculos_id = None, planetas_id = None)
         db.session.add(new_favoritos_personajes)
         db.session.commit()
 
@@ -112,6 +112,30 @@ def add_personajes_favoritos(usuario_id):
 
     return jsonify({'msg': 'favorito existe'}), 400
 
+
+
+@app.route('/usuario/<int:usuario_id>/favoritos/planetas', methods=['DELETE'])
+def delete_planetas_favoritos(usuario_id):
+    request_body = request.json
+    favoritos = Favoritos.query.filter_by(usuario_id=usuario_id, planetas_id=request_body['planetas_id']).first()
+    print(favoritos)
+    if favoritos is not None:
+        db.session.delete(favoritos)
+        db.session.commit()
+        return jsonify({'msg': 'eliminaste el favorito correctamente'}), 200  
+    return jsonify({'msg': 'No existe el favorito a eliminar'}), 400
+
+
+@app.route('/usuario/<int:usuario_id>/favoritos/personajes', methods=['DELETE'])
+def delete_personaje_favoritos(usuario_id):
+    request_body = request.json
+    favoritos = Favoritos.query.filter_by(usuario_id=usuario_id, personajes_id=request_body['personajes_id']).first()
+    print(favoritos)
+    if favoritos is not None:
+        db.session.delete(favoritos)
+        db.session.commit()
+        return jsonify({'msg': 'eliminaste el favorito correctamente'}), 200  
+    return jsonify({'msg': 'No existe el favorito a eliminar'}), 400
 
 # Finalizan las rutas
 
