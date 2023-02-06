@@ -47,7 +47,7 @@ def get_personajes():
 @app.route('/personajes/<int:personajes_id>', methods=['GET'])
 def select_personajes(personajes_id):
     personaje = Personajes.query.filter_by(id=personajes_id).first()
-    return jsonify(personajes_id.serialize()), 200
+    return jsonify(personaje.serialize()), 200
 
 @app.route('/planetas', methods=['GET'])
 def get_planetas():
@@ -58,7 +58,7 @@ def get_planetas():
 @app.route('/planetas/<int:planetas_id>', methods=['GET'])
 def select_planetas(planetas_id):
     planetas = Planetas.query.filter_by(id=planetas_id).first()
-    return jsonify(planetas_id.serialize()), 200  
+    return jsonify(planeta.serialize()), 200  
 
 @app.route('/usuario', methods=['GET'])
 def get_usuario():
